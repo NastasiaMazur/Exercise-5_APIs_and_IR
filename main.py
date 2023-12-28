@@ -34,9 +34,10 @@ class Sonnet:
             for token in tokens:
                 # Use the stemmer on a token
                 stemmed_token = stemmer.stem(token, 0, len(token) - 1)
-                print(token, stemmed_token)
+                print(stemmed_token)
 
-            all_tokens.extend(tokens)
+            #all_tokens.extend(tokens)
+                all_tokens.append(stemmed_token)
 
         return all_tokens
 
