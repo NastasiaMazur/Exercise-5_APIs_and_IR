@@ -2,6 +2,8 @@ import requests
 import json
 import string
 
+from porter_stemmer import PorterStemmer
+
 # Part 2
 
 class Sonnet:
@@ -21,10 +23,19 @@ class Sonnet:
 
     def tokenize(self) -> list[str]:
         all_tokens = []
+        stemmer = PorterStemmer()
         for line in self.lines:
             # Split on whitespace, convert to lowercase, and remove punctuation
             tokens = line.lower().split()
             tokens = [token.strip(string.punctuation) for token in tokens]
+
+# Part 4
+            #tokens_2 = ['this', 'day']
+            for token in tokens:
+                # Use the stemmer on a token
+                stemmed_token = stemmer.stem(token, 0, len(token) - 1)
+                print(token, stemmed_token)
+
             all_tokens.extend(tokens)
 
         return all_tokens
