@@ -24,9 +24,9 @@ class Document:
                 # Use the stemmer on a token
                 stemmed_token = stemmer.stem(token, 0, len(token) - 1)
                 # print(stemmed_token)
-
-            #all_tokens.extend(tokens)
                 all_tokens.append(stemmed_token)
+
+
 
         return all_tokens
 
@@ -130,6 +130,7 @@ class Index(dict[str, set[int]]):
         # Get the tokens from the document
         tokens = document.tokenize()
 
+
         # Iterate over tokens and update the index
         for token in tokens:
 
@@ -150,7 +151,6 @@ class Index(dict[str, set[int]]):
                     matching_document_ids = self[token].copy()
                 else:
                     matching_document_ids.intersection_update(self[token])
-                                        # Convert document ids to a list of corresponding sonnets
 
         matching_sonnets = [sonnet for sonnet in self.documents if sonnet.id in matching_document_ids]
         matching_sonnets.sort(key=lambda x: x.id)  # Sort the resulting list by document id
@@ -251,6 +251,9 @@ while True:
 
     # Create a Query instance with the user input
     query = Query(user_input)
+# for me:
+    # Print the tokenized version of the user's query
+    print(f"Tokenized Query: {query.tokenize()}")
 
     # Search for matching sonnets in the index
     matching_sonnets = index.search(query)
