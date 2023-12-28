@@ -4,22 +4,11 @@ import string
 
 from porter_stemmer import PorterStemmer
 
-# Part 2
+# Part 6
 
-class Sonnet:
-    def __init__(self, sonnet_data):
-        # Extract the number of the sonnet (in this case, 32) and title from the title string
-        title_parts = sonnet_data["title"].split(":")
-        self.id = int(title_parts[0].strip().split()[-1])  # Store it as a value of type int in attribute id
-        self.title = str(title_parts[1].strip())           # Store it as a value of type str in attribute title
-
-        self.lines = sonnet_data["lines"]                  # Store the lines of the sonnet in an attribute called lines.
-
-    def __str__(self):
-        return "\n".join(self.lines)
-
-    def __repr__(self):
-        return f"Sonnet {self.id}: {self.title}"
+class Document:
+    def __init__(self, lines):
+        self.lines = lines
 
     def tokenize(self) -> list[str]:
         all_tokens = []
@@ -40,6 +29,31 @@ class Sonnet:
                 all_tokens.append(stemmed_token)
 
         return all_tokens
+
+
+# Part 2
+
+class Sonnet(Document):
+
+    def __init__(self, sonnet_data):
+        # Extract the number of the sonnet (in this case, 32) and title from the title string
+        title_parts = sonnet_data["title"].split(":")
+        self.id = int(title_parts[0].strip().split()[-1])  # Store it as a value of type int in attribute id
+        self.title = str(title_parts[1].strip())           # Store it as a value of type str in attribute title
+
+        self.lines = sonnet_data["lines"]                  # Store the lines of the sonnet in an attribute called lines.
+
+    def __str__(self):
+        return "\n".join(self.lines)
+
+    def __repr__(self):
+        return f"Sonnet {self.id}: {self.title}"
+
+
+class Query(Document):
+    def __init__(self, query: str):
+        # Call the parent class's __init__ method to store the query as a single line
+        super().__init__([query])
 
 
 sonnet_example_32 = {
@@ -197,8 +211,8 @@ sonnet1 = Sonnet(sonnet_1)
 sonnet2 = Sonnet(sonnet_2)
 index = Index([sonnet1, sonnet2])   # Create an instance of the Index class and pass the list of sonnets
 
-print("Index Structure:")
-print(index)
+#print("Index Structure:")
+#print(index)
 
 
 # To debug Part 5 put a dot near add method self -> documents
