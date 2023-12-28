@@ -15,6 +15,8 @@ if response.status_code == 200:
     data = json.loads(response.text)
 
 
+# Part 2
+
 class Sonnet:
     def __init__(self, sonnet_data):
         # Extract the number of the sonnet (in this case, 32) and title from the title string
