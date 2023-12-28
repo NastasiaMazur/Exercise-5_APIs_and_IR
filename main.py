@@ -23,6 +23,8 @@ class Document:
             for token in tokens:
                 # Use the stemmer on a token
                 stemmed_token = stemmer.stem(token, 0, len(token) - 1)
+                # Remove apostrophes from the stemmed token
+                stemmed_token = stemmed_token.replace("'", "")
                 # print(stemmed_token)
                 all_tokens.append(stemmed_token)
 
@@ -140,6 +142,7 @@ class Index(dict[str, set[int]]):
 
             self[token].add(document.id)    # Get the set for the token and add the id of the document to the set
 
+
     def search(self, query: Query) -> list[Sonnet]:
                                         # Find document ids matching the query
         query_tokens = query.tokenize()
@@ -156,6 +159,7 @@ class Index(dict[str, set[int]]):
         matching_sonnets.sort(key=lambda x: x.id)  # Sort the resulting list by document id
         return matching_sonnets
 
+# Part 5
 
 sonnet_1 = {
     "title": "Sonnet 1: From fairest creatures we desire increase",
@@ -311,3 +315,8 @@ print(stemmed_tokens)
 #  Sonnet 40 f.e. has "hate's"
 # Ideas: One way to address this is to modify the tokenize method to keep both the original token and its stemmed version.
 # Then, during the search, you can match both versions.
+# ISSUE : the code does not use stemmed tokens during the search.
+# the stemmed tokens are not compared to the stemmed tokens stored in the index.
+# the code directly compares the stemmed tokens in the query to the original (unstemmed) tokens stored in the index.
+
+# stem the query tokens BEFORE comparing them to the index
