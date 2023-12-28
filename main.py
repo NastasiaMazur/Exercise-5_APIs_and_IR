@@ -1,19 +1,6 @@
 import requests
 import json
 
-# Part 1
-url = "https://poetrydb.org/author,title/Shakespeare;Sonnet"
-
-response = requests.get(url)
-
-if response.status_code == 200:
-    print("Request was successful!")
-    print("Response content:")
-
-    # print(response.text)
-
-    data = json.loads(response.text)
-
 
 # Part 2
 
@@ -54,6 +41,31 @@ sonnet_data_example = {
     ],
     "linecount": "14"
 }
+
+# Part 1
+url = "https://poetrydb.org/author,title/Shakespeare;Sonnet"
+
+response = requests.get(url)
+
+if response.status_code == 200:
+    print("Request was successful!")
+    print("Response content:")
+
+    # print(response.text)
+
+    data = json.loads(response.text)
+
+# Part 2/2: Convert the list of dictionaries to a list of Sonnet instances
+    sonnets_instances = [Sonnet(sonnet_data) for sonnet_data in data]  # list comprehension
+
+    # Print the lines of each sonnet
+    for sonnet_instance in sonnets_instances:
+        print(f"\nSonnet {sonnet_instance.id}: {sonnet_instance.title}")
+        # print(str(sonnet_instance.lines))
+        print(sonnet_instance.lines)
+
+else:
+    print(f"Error: Unable to fetch data. Status Code: {response.status_code}")
 
 
 sonnet_instance = Sonnet(sonnet_data_example)
