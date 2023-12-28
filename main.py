@@ -73,7 +73,7 @@ if response.status_code == 200:
     print("Request was successful!")
     print("Response content:")
 
-    # print(response.text)
+    #print(response.text)
 
     data = json.loads(response.text)
 
@@ -102,3 +102,103 @@ print(f"\n")
 tokens = sonnet32.tokenize()
 #print(f"\nTokens of {sonnet32.title}:")
 print(tokens)
+
+# Part 5
+class Index(dict[str, set[int]]):
+    def __init__(self, documents: list[Sonnet]):
+        super().__init__()
+        self.documents = documents
+
+        for document in documents:
+            self.add(document)
+
+    def add(self, document):
+        # Get the tokens from the document
+        tokens = document.tokenize()
+
+        # Iterate over tokens and update the index
+        for token in tokens:
+
+            if token not in self:    # Check if the token exists in the index
+
+                self[token] = set()  # If not, add a new empty set using the token as key
+
+            self[token].add(document.id)    # Get the set for the token and add the id of the document to the set
+
+
+sonnet_1 = {
+    "title": "Sonnet 1: From fairest creatures we desire increase",
+    "author": "William Shakespeare",
+    "lines": [
+      "From fairest creatures we desire increase,",
+      "That thereby beauty's rose might never die,",
+      "But as the riper should by time decease,",
+      "His tender heir might bear his memory:",
+      "But thou contracted to thine own bright eyes,",
+      "Feed'st thy light's flame with self-substantial fuel,",
+      "Making a famine where abundance lies,",
+      "Thy self thy foe, to thy sweet self too cruel:",
+      "Thou that art now the world's fresh ornament,",
+      "And only herald to the gaudy spring,",
+      "Within thine own bud buriest thy content,",
+      "And tender churl mak'st waste in niggarding:",
+      "  Pity the world, or else this glutton be,",
+      "  To eat the world's due, by the grave and thee."
+    ],
+    "linecount": "14"
+  }
+
+sonnet_2 ={
+    "title": "Sonnet 2: When forty winters shall besiege thy brow",
+    "author": "William Shakespeare",
+    "lines": [
+      "When forty winters shall besiege thy brow,",
+      "And dig deep trenches in thy beauty's field,",
+      "Thy youth's proud livery so gazed on now,",
+      "Will be a tatter'd weed of small worth held:",
+      "Then being asked, where all thy beauty lies,",
+      "Where all the treasure of thy lusty days;",
+      "To say, within thine own deep sunken eyes,",
+      "Were an all-eating shame, and thriftless praise.",
+      "How much more praise deserv'd thy beauty's use,",
+      "If thou couldst answer 'This fair child of mine",
+      "Shall sum my count, and make my old excuse,'",
+      "Proving his beauty by succession thine!",
+      "  This were to be new made when thou art old,",
+      "  And see thy blood warm when thou feel'st it cold."
+    ],
+    "linecount": "14"
+  }
+
+sonnet_3 = {
+    "title": "Sonnet 3: Look in thy glass and tell the face thou viewest",
+    "author": "William Shakespeare",
+    "lines": [
+      "Look in thy glass and tell the face thou viewest",
+      "Now is the time that face should form another;",
+      "Whose fresh repair if now thou not renewest,",
+      "Thou dost beguile the world, unbless some mother.",
+      "For where is she so fair whose unear'd womb",
+      "Disdains the tillage of thy husbandry?",
+      "Or who is he so fond will be the tomb,",
+      "Of his self-love to stop posterity?",
+      "Thou art thy mother's glass and she in thee",
+      "Calls back the lovely April of her prime;",
+      "So thou through windows of thine age shalt see,",
+      "Despite of wrinkles this thy golden time.",
+      "  But if thou live, remember'd not to be,",
+      "  Die single and thine image dies with thee."
+    ],
+    "linecount": "14"
+  }
+
+# Initialize sonnet instances
+sonnet1 = Sonnet(sonnet_1)
+sonnet2 = Sonnet(sonnet_2)
+index = Index([sonnet1, sonnet2])   # Create an instance of the Index class and pass the list of sonnets
+
+print("Index Structure:")
+print(index)
+
+
+# To debug Part 5 put a dot near add method self -> documents
