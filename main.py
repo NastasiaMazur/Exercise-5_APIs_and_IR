@@ -119,7 +119,7 @@ print(tokens)
 
 # Part 5
 class Index(dict[str, set[int]]):
-    def __init__(self, documents: list[Sonnet]):
+    def __init__(self, documents: list[Document]): #Sonnet to Document
         super().__init__()
         self.documents = documents
 
@@ -139,6 +139,22 @@ class Index(dict[str, set[int]]):
 
             self[token].add(document.id)    # Get the set for the token and add the id of the document to the set
 
+    def search(self, query: Query) -> list[Sonnet]:
+                                        # Find document ids matching the query
+        query_tokens = query.tokenize()
+        matching_document_ids = set()
+
+        for token in query_tokens:
+            if token in self:
+                if not matching_document_ids:
+                    matching_document_ids = self[token].copy()
+                else:
+                    matching_document_ids.intersection_update(self[token])
+                                        # Convert document ids to a list of corresponding sonnets
+
+        matching_sonnets = [sonnet for sonnet in self.documents if sonnet.id in matching_document_ids]
+        matching_sonnets.sort(key=lambda x: x.id) # Sort the resulting list by document id
+        return matching_sonnets
 
 sonnet_1 = {
     "title": "Sonnet 1: From fairest creatures we desire increase",
@@ -209,10 +225,20 @@ sonnet_3 = {
 # Initialize sonnet instances
 sonnet1 = Sonnet(sonnet_1)
 sonnet2 = Sonnet(sonnet_2)
+sonnet3 = Sonnet(sonnet_3)
 index = Index([sonnet1, sonnet2])   # Create an instance of the Index class and pass the list of sonnets
 
 #print("Index Structure:")
 #print(index)
+
+# Part 7
+sonnets_list = [sonnet1, sonnet2, sonnet3]
+index2 = Index(sonnets_list)
+query = Query("love hate")
+matching_sonnets = index2.search(query)
+# Print the results
+for matching_sonnet in matching_sonnets:
+    print(f"\n-----------------------------------------\nMatching Sonnets: \n{matching_sonnet}")
 
 
 # To debug Part 5 put a dot near add method self -> documents
