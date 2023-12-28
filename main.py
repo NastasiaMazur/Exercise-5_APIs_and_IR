@@ -44,7 +44,8 @@ class Sonnet(Document):
         self.lines = sonnet_data["lines"]                  # Store the lines of the sonnet in an attribute called lines.
 
     def __str__(self):
-        return "\n".join(self.lines)
+        # return "\n".join(self.lines) # to avoid indentation of two last line in matched sonnets
+        return "\n".join(line.lstrip() for line in self.lines)
 
     def __repr__(self):
         return f"Sonnet {self.id}: {self.title}"
@@ -95,10 +96,9 @@ if response.status_code == 200:
     sonnets_instances = [Sonnet(sonnet_data) for sonnet_data in data]  # list comprehension
 
     # Print the lines of each sonnet
-    for sonnet32 in sonnets_instances:
-        print(f"\nSonnet {sonnet32.id}: {sonnet32.title}")
-        # print(str(sonnet_instance.lines))
-        print(sonnet32.lines)
+    for sonnet in sonnets_instances:
+        print(f"\nSonnet {sonnet.id}: {sonnet.title}")
+        print(sonnet.lines)
 
 else:
     print(f"Error: Unable to fetch data. Status Code: {response.status_code}")
@@ -153,8 +153,9 @@ class Index(dict[str, set[int]]):
                                         # Convert document ids to a list of corresponding sonnets
 
         matching_sonnets = [sonnet for sonnet in self.documents if sonnet.id in matching_document_ids]
-        matching_sonnets.sort(key=lambda x: x.id) # Sort the resulting list by document id
+        matching_sonnets.sort(key=lambda x: x.id)  # Sort the resulting list by document id
         return matching_sonnets
+
 
 sonnet_1 = {
     "title": "Sonnet 1: From fairest creatures we desire increase",
@@ -223,22 +224,36 @@ sonnet_3 = {
   }
 
 # Initialize sonnet instances
-sonnet1 = Sonnet(sonnet_1)
-sonnet2 = Sonnet(sonnet_2)
-sonnet3 = Sonnet(sonnet_3)
-index = Index([sonnet1, sonnet2])   # Create an instance of the Index class and pass the list of sonnets
+
+#sonnet1 = Sonnet(sonnet_1)
+#sonnet2 = Sonnet(sonnet_2)
+#sonnet3 = Sonnet(sonnet_3)
+#index = Index([sonnet1, sonnet2])   # Create an instance of the Index class and pass the list of sonnets
+
+# Initialize sonnet instances
+sonnets_list = sonnets_instances
+# Part 7
+index = Index(sonnets_list)
+
+query = Query("love hate")
+matching_sonnets = index.search(query)
+
+# Print the results
+print(f"Matching Sonnets:")
+for matching_sonnet in matching_sonnets:
+    print(f"-----------------------------------------\n{matching_sonnet}")
+
 
 #print("Index Structure:")
 #print(index)
 
-# Part 7
+""" # Part 7
 sonnets_list = [sonnet1, sonnet2, sonnet3]
 index2 = Index(sonnets_list)
 query = Query("love hate")
 matching_sonnets = index2.search(query)
 # Print the results
 for matching_sonnet in matching_sonnets:
-    print(f"\n-----------------------------------------\nMatching Sonnets: \n{matching_sonnet}")
-
+    print(f"\n-----------------------------------------\nMatching Sonnets: \n{matching_sonnet}")"""
 
 # To debug Part 5 put a dot near add method self -> documents
