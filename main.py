@@ -238,22 +238,42 @@ index = Index(sonnets_list)
 query = Query("love hate")
 matching_sonnets = index.search(query)
 
+
+
+while True:
+    # Read user input
+    user_input = input("Search for sonnets ('q' to quit)> ")
+
+    # Check if the user wants to quit
+    if user_input.lower() == 'q':
+        print("Exiting...")
+        break
+
+    # Create a Query instance with the user input
+    query = Query(user_input)
+
+    # Search for matching sonnets in the index
+    matching_sonnets = index.search(query)
+
+    # Display the results
+    if matching_sonnets:
+        matching_ids = ', '.join(str(sonnet.id) for sonnet in matching_sonnets)
+        print(f"--> Your search for '{user_input}' matched {len(matching_sonnets)} sonnets ({matching_ids}):")
+        for matching_sonnet in matching_sonnets:
+            print(f"Sonnet {matching_sonnet.id}: {matching_sonnet}")
+            print("\n-----------------------------------------")
+    else:
+        print(f"--> No sonnets found for '{user_input}'")
+
+
 # Print the results
-print(f"Matching Sonnets:")
-for matching_sonnet in matching_sonnets:
-    print(f"-----------------------------------------\n{matching_sonnet}")
+#print(f"Matching Sonnets:")
+#for matching_sonnet in matching_sonnets:
+#    print(f"-----------------------------------------\n{matching_sonnet}")
 
 
 #print("Index Structure:")
 #print(index)
 
-""" # Part 7
-sonnets_list = [sonnet1, sonnet2, sonnet3]
-index2 = Index(sonnets_list)
-query = Query("love hate")
-matching_sonnets = index2.search(query)
-# Print the results
-for matching_sonnet in matching_sonnets:
-    print(f"\n-----------------------------------------\nMatching Sonnets: \n{matching_sonnet}")"""
 
 # To debug Part 5 put a dot near add method self -> documents
