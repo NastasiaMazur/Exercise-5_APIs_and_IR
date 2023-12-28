@@ -1,6 +1,6 @@
 import requests
 import json
-
+import string
 
 # Part 2
 
@@ -19,8 +19,18 @@ class Sonnet:
     def __repr__(self):
         return f"Sonnet {self.id}: {self.title}"
 
+    def tokenize(self) -> list[str]:
+        all_tokens = []
+        for line in self.lines:
+            # Split on whitespace, convert to lowercase, and remove punctuation
+            tokens = line.lower().split()
+            tokens = [token.strip(string.punctuation) for token in tokens]
+            all_tokens.extend(tokens)
 
-sonnet_data_example = {
+        return all_tokens
+
+
+sonnet_example_32 = {
     "title": "Sonnet 32: If thou survive my well-contented day",
     "author": "William Shakespeare",
     "lines": [
@@ -59,18 +69,24 @@ if response.status_code == 200:
     sonnets_instances = [Sonnet(sonnet_data) for sonnet_data in data]  # list comprehension
 
     # Print the lines of each sonnet
-    for sonnet_instance in sonnets_instances:
-        print(f"\nSonnet {sonnet_instance.id}: {sonnet_instance.title}")
+    for sonnet32 in sonnets_instances:
+        print(f"\nSonnet {sonnet32.id}: {sonnet32.title}")
         # print(str(sonnet_instance.lines))
-        print(sonnet_instance.lines)
+        print(sonnet32.lines)
 
 else:
     print(f"Error: Unable to fetch data. Status Code: {response.status_code}")
 
 
-sonnet_instance = Sonnet(sonnet_data_example)
+# Part 2
+sonnet32 = Sonnet(sonnet_example_32)
 
-print(repr(sonnet_instance))
+print(repr(sonnet32))
 
-print(str(sonnet_instance))
+print(str(sonnet32))
+print(f"\n")
 
+# Part 3 - Tokenize and print the tokens
+tokens = sonnet32.tokenize()
+#print(f"\nTokens of {sonnet32.title}:")
+print(tokens)
