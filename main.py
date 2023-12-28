@@ -23,7 +23,7 @@ class Document:
             for token in tokens:
                 # Use the stemmer on a token
                 stemmed_token = stemmer.stem(token, 0, len(token) - 1)
-                #print(stemmed_token)
+                # print(stemmed_token)
 
             #all_tokens.extend(tokens)
                 all_tokens.append(stemmed_token)
@@ -275,5 +275,36 @@ while True:
 #print("Index Structure:")
 #print(index)
 
+# Checking the stemming of Sonnet 40:
+sonnet40_data = {
+    "title": "Sonnet 40: Take all my loves, my love, yea, take them all",
+    "author": "William Shakespeare",
+    "lines": [
+        "Take all my loves, my love, yea, take them all;",
+        "What hast thou then more than thou hadst before?",
+        "No love, my love, that thou mayst true love call;",
+        "All mine was thine, before thou hadst this more.",
+        "Then if for my love, thou my love receivest,",
+        "I cannot blame thee, for my love thou usest;",
+        "But yet be blamed, if thou thyself deceivest",
+        "By wilful taste of what thyself refusest.",
+        "I do forgive thy robbery, gentle thief,",
+        "Although thou steal thee all my poverty;",
+        "And yet love knows it is a greater grief",
+        "To bear love's wrong than hate's known injury.",
+        "Lascivious grace, in whom all ill well shows,",
+        "Kill me with spites, yet we must not be foes."
+    ],
+    "linecount": "14"
+}
+
+sonnet40 = Sonnet(sonnet40_data)
+
+stemmed_tokens = sonnet40.tokenize()
+print(f"\nStemmed Tokens of Sonnet 40:\n")
+print(stemmed_tokens)
 
 # To debug Part 5 put a dot near add method self -> documents
+#  Sonnet 40 f.e. has "hate's"
+# Ideas: One way to address this is to modify the tokenize method to keep both the original token and its stemmed version.
+# Then, during the search, you can match both versions.
