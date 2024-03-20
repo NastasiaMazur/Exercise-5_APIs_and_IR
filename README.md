@@ -4,10 +4,10 @@ A search engine system for indexing and retrieving Shakespearean sonnets based o
 
 The key features of this project include:
 
-- Inverted Index: Utilizes an inverted index data structure to efficiently store and retrieve information about the occurrence of words in the sonnets.
+- **Inverted Index**: Utilizes an inverted index data structure to efficiently store and retrieve information about the occurrence of words in the sonnets.
 
-- PoetryDB API: Fetches Shakespearean sonnets data from the PoetryDB API, providing a rich dataset for the search engine.
+- **PoetryDB API**: Fetches Shakespearean sonnets data from the PoetryDB API, providing a rich dataset for the search engine.
 
-- Stemming: Implements word stemming using Porter's stemming algorithm, enhancing search capabilities by considering different forms of words as equivalent.
+- **Stemming**: Implements word stemming using Porter's stemming algorithm, enhancing search capabilities by considering different forms of words as equivalent.
 
-- Boolean Retrieval: Supports boolean retrieval operations, allowing users to search for sonnets based on complex queries involving multiple keywords.
+- **Boolean Retrieval**: Supports boolean retrieval operations, allowing users to search for sonnets based on complex queries involving multiple keywords.
