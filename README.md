@@ -1,5 +1,7 @@
 ## Shakespearean Sonnet Search
 
+A search engine system for indexing and retrieving Shakespearean sonnets based on user queries. It includes classes for representing sonnets, tokenizing text, indexing, and searching. Users can input queries and retrieve relevant sonnets through token matching. Stemming is implemented to enhance search accuracy by considering original and stemmed tokens.
+
 The key features of this project include:
 
 - Inverted Index: Utilizes an inverted index data structure to efficiently store and retrieve information about the occurrence of words in the sonnets.
